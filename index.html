@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Météo 7 jours — France</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+        <!-- Leaflet CSS (carte interactive) -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+        <!-- Chart.js pour les graphiques -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        
+        <!-- Police Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body class="overflow-x-hidden">
+
+        <canvas id="stars-canvas"></canvas>
+
+        <!-- en-tête -->
+        <div id="hero" class="text-white text-center">
+            <h1><i class="bi bi-cloud-sun-fill me-2"></i>Météo 7 jours</h1>
+            <p>Prévisions pour les villes de France — données Open-Meteo</p>
+        </div>
+
+        <div class="container py-5">
+
+            <!-- formulaire -->
+            <div id="search-section">
+                <label for="cityInput" class="mb-3"><i class="bi bi-search me-2"></i>Rechercher une ville</label>
+                <form id="searchForm" class="d-flex flex-wrap gap-4 align-items-center" novalidate>
+                    <input
+                        type="text"
+                        id="cityInput"
+                        class="form-control flex-grow-1"
+                        placeholder="Ex : Paris, Lyon, 59000…"
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit" id="btnRecherche" class="align-item">
+                        <i class="bi bi-cloud-download me-4"></i>Voir la météo
+                    </button>
+                </form>
+            </div>
+
+            <!-- chargement -->
+            <div id="loading" class="align-items-center justify-content-center text-center">
+                <div class="spinner-border text-primary me-2" role="status" aria-hidden="true"></div>
+                Récupération des données météo…
+            </div>
+
+            <!-- message d'erreur -->
+            <div id="error-message" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                <span id="error-text"></span>
+            </div>
+
+            <!-- moyennes -->
+            <div id="result" class="row g-3 mb-3"></div>
+
+            <!-- titre de ville -->
+            <div id="ville-titre" class="mt-5"></div>
+
+            <!-- option de tri -->
+            <div id="sortSection" class="d-none sort-section">
+                <div class="sort-buttons d-flex flex-wrap justify-content-center">
+                    <button class="sort-btn active" data-sort="date">
+                        <i class="bi bi-calendar me-1"></i>Par date
+                    </button>
+                    <button class="sort-btn d-flex align-items-center" data-sort="tempMax">
+                        <i class="bi bi-thermometer-high me-1"></i>Temp max
+                    </button>
+                    <button class="sort-btn d-flex align-items-center" data-sort="tempMin">
+                        <i class="bi bi-thermometer-low me-1"></i>Temp min
+                    </button>
+                    <button class="sort-btn d-flex align-items-center" data-sort="humidity">
+                        <i class="bi bi-droplet me-1"></i>Humidité
+                    </button>
+                    <button class="sort-btn d-flex align-items-center" data-sort="windSpeed">
+                        <i class="bi bi-wind me-1"></i>Vent
+                    </button>
+                    <button class="sort-btn d-flex align-items-center" data-sort="precipitation">
+                        <i class="bi bi-cloud-rain me-1"></i>Précipitations
+                    </button>
+                </div>
+            </div>
+
+            <!-- cartes journalières -->
+            <div id="result-meteo" class="row g-3 justify-content-center"></div>
+
+            <!-- graphiques -->
+            <div id="chartsSection" class="d-none charts-section">
+                <h3 class="mt-4 mb-3"><i class="bi bi-graph-up me-2"></i>Tendances sur 7 jours</h3>
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <h5><i class="bi bi-thermometer me-2"></i>Températures</h5>
+                            <canvas id="tempChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <h5><i class="bi bi-droplet me-2"></i>Humidité</h5>
+                            <canvas id="humidityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <h5><i class="bi bi-wind me-2"></i>Vitesse du vent</h5>
+                            <canvas id="windChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <h5><i class="bi bi-cloud-rain me-2"></i>Précipitations</h5>
+                            <canvas id="precipChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- carte leaflet -->
+            <div id="map-section" class="d-none">
+                <div id="map-titre"><i class="bi bi-map me-2"></i>Localisation sur la carte</div>
+                <div id="map"></div>
+            </div>
+
+        </div>
+
+        <!-- scripts -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="meteo.js"></script>
+    </body>
+
+    <footer class="text-center">
+        Données fournies par <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> &amp; <a href="https://openstreetmap.org" target="_blank">OpenStreetMap</a>
+    </footer>
+
+       
+
+</html>
