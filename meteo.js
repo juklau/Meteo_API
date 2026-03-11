@@ -165,7 +165,7 @@ function displayAverages() {
     const precipitation = meteoData.weather.precipitation_sum;
     
     //somme de tous les élémnets => reduce() parcourt le tableau et accumule un résultat => équivalent de somme avec foreach
-    //toFixed(1) => arrondit  à 1 chiffre après virgule et retourne une string
+    //toFixed(1) => arrondit à 1 chiffre après virgule et retourne une string
     const avgTemp = (temps.reduce((a, b) => a + b, 0) / temps.length).toFixed(1);
     const avgHumidity = Math.round(humidity.reduce((a, b) => a + b, 0) / humidity.length);
 
