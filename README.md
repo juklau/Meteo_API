@@ -191,6 +191,8 @@ requestAnimationFrame(animer); // boucle ~60fps, plus fluide que setInterval
 ---
 
 ##  Auteur
-
+Klaudia Juhasz
 Projet réalisé dans le cadre du **BTS SIO option SLAM**  
 Réalisation Professionnelle n°6 — Développement d'une interface Web consommant une API
+
+Mars 2026
