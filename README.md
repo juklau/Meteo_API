@@ -1,7 +1,7 @@
 # 🌤️ Météo 7 jours — Application Web
 
 > Application web de prévisions météo sur 7 jours pour les villes de France.  
-> Réalisation Professionnelle n°6 — BTS SIO SLAM
+> BTS SIO SLAM
 
 ---
 
@@ -193,6 +193,6 @@ requestAnimationFrame(animer); // boucle ~60fps, plus fluide que setInterval
 ##  Auteur
 Klaudia Juhasz
 Projet réalisé dans le cadre du **BTS SIO option SLAM**  
-Réalisation Professionnelle n°6 — Développement d'une interface Web consommant une API
+Application Professionnelle — Développement d'une interface Web consommant une API
 
 Mars 2026
