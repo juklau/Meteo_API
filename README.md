@@ -55,6 +55,9 @@ meteo-7jours/
 
 ## Installation et utilisation
 
+> 🌐 **Version en ligne :** [https://meteo-klaudia.iris.a3n.fr:4433/](https://meteo-klaudia.iris.a3n.fr:4433/)
+
+
 Aucune installation requise. Le projet fonctionne directement dans le navigateur.
 
 **1. Cloner le dépôt**
