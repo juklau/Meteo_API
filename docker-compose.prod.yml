@@ -30,7 +30,7 @@ services:
       traefik.http.routers.meteo-klaudia.tls: "true"
       traefik.http.routers.meteo-klaudia.tls.certresolver: letsencrypt
       traefik.http.routers.meteo-klaudia.service: meteo-klaudia-svc
-      traefik.http.routers.meteo-klaudia.middlewares: user-auth@file,meteo-klaudia-security
+      traefik.http.routers.meteo-klaudia.middlewares: meteo-klaudia-security
 
       # Service
       traefik.http.services.meteo-klaudia-svc.loadbalancer.server.port: "80"
